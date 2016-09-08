@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+	<Appenders>
+		<RollingFile name="DebugRollingFile" fileName="${sys:catalina.home}/logs/debuglogs/baas.log"
+			filePattern="${sys:catalina.home}/logs/debuglogs/baas.log.%d{yyyy-MM-dd-HH}.gz">
+			<PatternLayout>
+				<Pattern>%d{ISO8601} %-5p [%c:%F:%L] - [%t] - %m%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+			</Policies>
+			<Filters>
+				<ThresholdFilter levelMin="TRACE" levelMax="FATAL" onMatch="ACCEPT" onMismatch="NEUTRAL" />
+			</Filters>
+		</RollingFile>
+	</Appenders>
+
+	<Loggers>
+
+		<AsyncLogger name="com.tuturself.controller" level="${sys:baas-loglevel}" includeLocation="true" additivity="false">
+			<AppenderRef ref="DebugRollingFile" />
+		</AsyncLogger>
+
+		<AsyncLogger name="org.springframework" level="error" includeLocation="true" additivity="false">
+			<AppenderRef ref="DebugRollingFile" />
+		</AsyncLogger>
+
+		<AsyncRoot level="WARN" includeLocation="true" additivity="false">
+			<AppenderRef ref="DebugRollingFile" />
+		</AsyncRoot>
+	</Loggers>
+</Configuration>
